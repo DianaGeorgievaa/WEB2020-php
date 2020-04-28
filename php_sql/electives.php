@@ -12,23 +12,24 @@ $username = "root";
 $pass = "";
 $dbname = "test";
 
-function validateFormField(String $formField, int $maxLength, &$valid, &$errors){
+function validateFormField(String $formField, int $maxLength, &$valid, &$errors)
+{
   $inputValue = $_POST["$formField"];
-  if(!$inputValue){
-      $errors["$formField"] = "Полето е задължително."; 
-  } elseif(strlen($inputValue) > $maxLength){
-      $errors["$formField"] = "Полето има максимална дължина символа.";
+  if (!$inputValue) {
+    $errors["$formField"] = "Полето е задължително.";
+  } elseif (strlen($inputValue) > $maxLength) {
+    $errors["$formField"] = "Полето има максимална дължина символа.";
   } else {
-      $valid[$formField] = $inputValue;
-  }        
+    $valid[$formField] = $inputValue;
+  }
 }
 
 
-if( $_POST ){
-  
+if ($_POST) {
+
   validateFormField('title', MAX_TITLE_LENGTH, $valid, $errors);
-  validateFormField('teacher',MAX_TEACHER_LENGTH, $valid, $errors);
-  validateFormField('description',MAX_DESCRIPTION_LENGTH, $valid, $errors);
+  validateFormField('teacher', MAX_TEACHER_LENGTH, $valid, $errors);
+  validateFormField('description', MAX_DESCRIPTION_LENGTH, $valid, $errors);
 
   if (count($errors) === 0) {
     echo "The form was successfully submitted!";
