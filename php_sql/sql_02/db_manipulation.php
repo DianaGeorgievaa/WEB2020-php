@@ -24,7 +24,7 @@ function insertElective($title, $description, $lecturer)
     $preparedSql->bindParam(':title', $title);
     $preparedSql->bindParam(':description', $description);
     $preparedSql->bindParam(':lecturer', $lecturer);
-    $preparedSql->execute() or die("Filed to execute sql query.");
+    $preparedSql->execute() or die("Failed to execute sql query.");
 }
 
 
@@ -38,7 +38,7 @@ function getElective($id)
     $connection = getDatabaseConnection();
     $selectQuery = "SELECT * FROM $table WHERE id = :id;";
 
-    $result = $connection->prepare($selectQuery) or die("Filed to prepare sql query.");
+    $result = $connection->prepare($selectQuery) or die("Failed to prepare sql query.");
     $result->bindParam(':id', $id);
     $elective = $result->execute() or die("Failed to execute sql query.");
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
@@ -55,7 +55,7 @@ function isExistingId($id)
 
     $preparedSql = $connection->prepare($sql) or die("Failed to prepare sql query.");
     $preparedSql->bindParam(':id', $id);
-    $preparedSql->execute() or die("Filed to execute sql query.");
+    $preparedSql->execute() or die("Failed to execute sql query.");
     $result = $preparedSql->fetchAll();
 
     return count($result) !== 0;
@@ -79,5 +79,5 @@ function updateElective($id, $title, $description, $lecturer)
     $preparedSql->bindParam(':description', $description);
     $preparedSql->bindParam(':lecturer', $lecturer);
 
-    $preparedSql->execute() or die("Filed to execute the sql query.");
+    $preparedSql->execute() or die("Failed to execute the sql query.");
 }

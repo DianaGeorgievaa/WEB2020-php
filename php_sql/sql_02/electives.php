@@ -5,31 +5,29 @@ define("MAX_TITLE_LENGTH", 128, true);
 define("MAX_TEACHER_LENGTH", 1024, true);
 define("MAX_DESCRIPTION_LENGTH", 1024, true);
 
-$valid = array();
 $errors = array();
 
-function validateFormField(String $formField, int $maxLength, &$valid, &$errors)
+function validateFormField(String $formField, int $maxLength, &$errors)
 {
   $inputValue = $_POST["$formField"];
   if (!$inputValue) {
     $errors["$formField"] = "Полето е задължително.";
   } elseif (strlen($inputValue) > $maxLength) {
     $errors["$formField"] = "Полето има максимална дължина символа.";
-  } else {
-    $valid[$formField] = $inputValue;
   }
 }
 
 $numberPattern = "/[0-9]+/";
 $requestMethod = $_SERVER['REQUEST_METHOD'];
-$pathId = basename($_SERVER['REQUEST_URI']);
-$dirname = dirname($_SERVER['REQUEST_URI']);
+$requestUri = $_SERVER['REQUEST_URI'];
+$pathId = basename($requestUri);
+$dirname = dirname($requestUri);
 $fileename = "electives.php";
 if ($requestMethod == "POST") {
 
-  validateFormField('title', MAX_TITLE_LENGTH, $valid, $errors);
-  validateFormField('teacher', MAX_TEACHER_LENGTH, $valid, $errors);
-  validateFormField('description', MAX_DESCRIPTION_LENGTH, $valid, $errors);
+  validateFormField('title', MAX_TITLE_LENGTH, $errors);
+  validateFormField('teacher', MAX_TEACHER_LENGTH, $errors);
+  validateFormField('description', MAX_DESCRIPTION_LENGTH, $errors);
 
   $title = $_POST['title'];
   $lecturer = $_POST['teacher'];
@@ -60,12 +58,12 @@ if ($requestMethod == "POST") {
 
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  <title>Форма</title>
+  <title>Редактиране на избираем курс</title>
 </head>
 
 <body>
   <form method="post">
-    <h1>Добавяне на избираема дисциплина</h1>
+    <h1>Редактиране на избираема дисциплина</h1>
     <label for="course-title">Име на курс:</label>
     <input type="text" id="course-title" name="title" />
 
@@ -75,7 +73,6 @@ if ($requestMethod == "POST") {
     <label for="course-description">Описание на избираемата дисциплина: </label>
     <input type="text " id="course-description" name="description" />
     <input type="submit" name="submit">
-
   </form>
 </body>
 
