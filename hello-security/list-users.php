@@ -18,19 +18,21 @@
     include "db-connection.php";
     $conn = openCon();
 
+    $table = "person";
     $email = $_SESSION["email"];
-    $sql = "SELECT * from person where email = :email;";
+    $sql = "SELECT * from $table where email = :email;";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(":email", $email);
     $stmt->execute() or die("Failed to query from DB!");
     $firstrow = $stmt->fetch(PDO::FETCH_ASSOC) or die("User not found.");
 
     $role = $firstrow['role'];
-    if (strcmp($role, "admin") != 0) {
+    $adminRole = "admin";
+    if (strcmp($role, $adminRole) != 0) {
         die("You are not authorized for this operation!");
     }
 
-    $sql = "SELECT * from person;";
+    $sql = "SELECT * from $table;";
     $resultSet = $conn->prepare($sql);
     $resultSet->execute() or  die("Failed to query from DB!");
 

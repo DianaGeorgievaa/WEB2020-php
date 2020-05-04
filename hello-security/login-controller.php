@@ -13,7 +13,8 @@
 
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $sql = "SELECT * from person where email=:email AND password=:password";
+    $table = "person";
+    $sql = "SELECT * from $table where email=:email AND password=:password";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':password', $password);
